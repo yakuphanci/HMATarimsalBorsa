@@ -1,2 +1,2 @@
-# HMATarimsalBorsa
-HMA Tarımsal Borsa Uygulaması (Celal Bayar Üniversitesi 2. Sınıf Yazılım Yapımı Dersi Ödevi v2)
+# HMA Tarimsal Borsa
+(Celal Bayar Üniversitesi 2. Sınıf Yazılım Yapımı Dersi Ödevi v2)
