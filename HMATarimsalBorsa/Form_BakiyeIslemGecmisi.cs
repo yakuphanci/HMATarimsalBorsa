@@ -89,5 +89,10 @@ namespace HMATarimsalBorsa
         }
         #endregion
 
+        private void button_raporOlustur_Click(object sender, EventArgs e)
+        {
+            Form_Rapor frm_Rapor = new Form_Rapor(this.g_aktifKullanici);
+            frm_Rapor.ShowDialog();
+        }
     }
 }

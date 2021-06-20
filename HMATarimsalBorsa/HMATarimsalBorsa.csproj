@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\ExportToPdf\ExportToPdf\bin\Debug\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -100,11 +103,11 @@
     <Compile Include="Form_Giris.Designer.cs">
       <DependentUpon>Form_Giris.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Kurlar.cs">
+    <Compile Include="Form_Rapor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Kurlar.Designer.cs">
-      <DependentUpon>Form_Kurlar.cs</DependentUpon>
+    <Compile Include="Form_Rapor.Designer.cs">
+      <DependentUpon>Form_Rapor.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Main.cs">
       <SubType>Form</SubType>
@@ -144,6 +147,7 @@
     <Compile Include="Mesajlar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RaporlamaNesneleri\RaporOlusturucu.cs" />
     <Compile Include="Renkler.cs" />
     <Compile Include="SatilanUrun.cs" />
     <Compile Include="Urun.cs" />
@@ -173,8 +177,8 @@
     <EmbeddedResource Include="Form_Kaydol.resx">
       <DependentUpon>Form_Kaydol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Kurlar.resx">
-      <DependentUpon>Form_Kurlar.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Rapor.resx">
+      <DependentUpon>Form_Rapor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Main.resx">
       <DependentUpon>Form_Main.cs</DependentUpon>

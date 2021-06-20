@@ -42,8 +42,6 @@ namespace HMATarimsalBorsa
             {
                 //Eğer hata yoksa ama null ise dosya, istenen türde yeni boş bir data döndür.
                 var data = (T)(JsonConvert.DeserializeObject(JSON, typeof(T)) ?? new T());
-                if (data is Kasa)
-                    System.Windows.Forms.MessageBox.Show(JSON);
                 return data;
             }
             catch (Exception)

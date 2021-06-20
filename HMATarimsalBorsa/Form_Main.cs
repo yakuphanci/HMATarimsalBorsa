@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace HMATarimsalBorsa
@@ -32,10 +33,6 @@ namespace HMATarimsalBorsa
         }
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form_Kurlar frmKur = new Form_Kurlar();
-            frmKur.Show();
-        }
+ 
     }
 }

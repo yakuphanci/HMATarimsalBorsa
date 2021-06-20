@@ -56,6 +56,7 @@ namespace HMATarimsalBorsa
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.button_raporOlustur = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel_islemGecmisi.SuspendLayout();
             this.panel_bakiyeIslem.SuspendLayout();
@@ -70,7 +71,7 @@ namespace HMATarimsalBorsa
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(375, 579);
+            this.groupBox1.Size = new System.Drawing.Size(375, 531);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "İşlem Geçmişi";
@@ -345,12 +346,29 @@ namespace HMATarimsalBorsa
             this.label21.TabIndex = 0;
             this.label21.Text = "10 May 2021";
             // 
+            // button_raporOlustur
+            // 
+            this.button_raporOlustur.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.button_raporOlustur.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_raporOlustur.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button_raporOlustur.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_raporOlustur.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.button_raporOlustur.Location = new System.Drawing.Point(0, 550);
+            this.button_raporOlustur.Margin = new System.Windows.Forms.Padding(4);
+            this.button_raporOlustur.Name = "button_raporOlustur";
+            this.button_raporOlustur.Size = new System.Drawing.Size(399, 47);
+            this.button_raporOlustur.TabIndex = 2;
+            this.button_raporOlustur.Text = "Rapor Olustur";
+            this.button_raporOlustur.UseVisualStyleBackColor = false;
+            this.button_raporOlustur.Click += new System.EventHandler(this.button_raporOlustur_Click);
+            // 
             // Form_BakiyeIslemGecmisi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(22)))), ((int)(((byte)(22)))));
-            this.ClientSize = new System.Drawing.Size(399, 603);
+            this.ClientSize = new System.Drawing.Size(399, 597);
+            this.Controls.Add(this.button_raporOlustur);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -400,5 +418,6 @@ namespace HMATarimsalBorsa
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button_raporOlustur;
     }
 }

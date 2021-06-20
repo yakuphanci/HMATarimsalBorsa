@@ -33,7 +33,6 @@ namespace HMATarimsalBorsa
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_kayitOl = new System.Windows.Forms.Button();
             this.button_giris = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,23 +79,12 @@ namespace HMATarimsalBorsa
             this.button_giris.UseVisualStyleBackColor = false;
             this.button_giris.Click += new System.EventHandler(this.button_giris_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(796, 453);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(22)))), ((int)(((byte)(22)))));
             this.ClientSize = new System.Drawing.Size(883, 552);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -114,6 +102,5 @@ namespace HMATarimsalBorsa
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button_kayitOl;
         private System.Windows.Forms.Button button_giris;
-        private System.Windows.Forms.Button button1;
     }
 }

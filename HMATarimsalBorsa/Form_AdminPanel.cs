@@ -39,8 +39,8 @@ namespace HMATarimsalBorsa
         void KasaBilgisiCek()
         {
             KasaKontrol kasaController = new KasaKontrol();
-            kasaController.BakiyeKontrol();
-            label_kasaBakiyeValue.Text = kasaController.BakiyeKontrol() + " TRY";
+            double kasadakiBakiye = kasaController.BakiyeKontrol();
+            label_kasaBakiyeValue.Text = Math.Round(kasadakiBakiye,2) + " TRY";
         }
 
 
