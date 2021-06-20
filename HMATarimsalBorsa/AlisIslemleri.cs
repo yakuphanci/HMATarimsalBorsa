@@ -100,7 +100,7 @@ namespace HMATarimsalBorsa
                     alinabilirUrun.miktar -= dusulecekMiktar;
 
                     //Alıcı ile satıcı arasındaki swap işlemi gerçekleşti.
-                    Satis_Swap(aliciID, alinabilirUrun.saticiID, devredilecekBakiye);
+                    Satis_Swap(aliciID, alinabilirUrun.saticiID, alinabilirUrun.urun.Adi, dusulecekMiktar, alinabilirUrun.fiyat);
                 }
 
                 //Eğer bir pazardaki tüm ürünler tamamen satıldıysa, o pazarı sistemden kaldır.
@@ -112,9 +112,6 @@ namespace HMATarimsalBorsa
                 if (istenenMiktar == 0)
                     break;
             }
-
-            //alıcıdan komisyon kesilecek.
-            KomisyonKes(aliciID, aliciyaYansiyanToplamBedel);
 
             //Degisikligi kaydettik.
             Veriler.SaveData(tumPazarlar);
@@ -128,35 +125,8 @@ namespace HMATarimsalBorsa
         }
 
 
-        #region Bakiye Islem Kayit Olaylari
-        private static BakiyeIslemObject Get_YeniBakiyeIslemi(string ilgiliKullanici, double miktar, short islem)
-        {
-            //yeni işlem oluştur.
-            var yeniBakiyeIslem = new BakiyeIslemObject();
-           
-            //yeni işlem bilgileri doldur.
-            yeniBakiyeIslem.ID = BenzersizIDOlusturucu.GetBakiyeIslemID();
-            yeniBakiyeIslem.kullaniciAdi = ilgiliKullanici;
-            yeniBakiyeIslem.islemTarihi = DateTime.Now;
-            yeniBakiyeIslem.dovizKuru = "TRY";
-       
-            if(islem != 0)
-                yeniBakiyeIslem.aciklama = (islem == +1) ? BakiyeIslemStatics.stdAciklama.Satis : BakiyeIslemStatics.stdAciklama.Alis;
-            else
-            {
-                yeniBakiyeIslem.aciklama =  BakiyeIslemStatics.stdAciklama.Komisyon;
-                islem = -1;
-            }
-            
-            yeniBakiyeIslem.degisiklikMiktari = (miktar * islem);
 
-            //Alış ve satış işlemi admine bağlı olmadan anlık gerçekleşsin.
-            yeniBakiyeIslem.incelendiMi = true;
-            yeniBakiyeIslem.IslemiIsle(true);
-
-            return yeniBakiyeIslem;
-        }
-
+        #region Bakiye Islem Kayit Olayi
         private static void Save_yeniBakiyeIslemi(BakiyeIslemObject yeniBakiyeIslem)
         {
             var bakiyeIslemler = Veriler.GetBakiyeIslemleri();
@@ -165,48 +135,83 @@ namespace HMATarimsalBorsa
         }
         #endregion
 
+
         #region SATIS ve ALIS fonksiyonlari
-        //Bakiye ekleme işlemi.
-        private static void Yeni_SatisIslemi(string ilgiliKullanici , double bakiyeDegisimMiktari)
+
+        //Temel Islem Nesnesi Olusturma
+        private static BakiyeIslemObject CreateBakiyeIslemObject(string ilgiliKullanici)
         {
-            var yeniBakiyeIslemi = Get_YeniBakiyeIslemi(ilgiliKullanici, bakiyeDegisimMiktari, +1);
-            Save_yeniBakiyeIslemi(yeniBakiyeIslemi);
+            //yeni işlem oluştur.
+            var yeniBakiyeIslem = new BakiyeIslemObject();
+
+            //yeni işlem bilgileri doldur.
+            yeniBakiyeIslem.ID = BenzersizIDOlusturucu.GetBakiyeIslemID();
+            yeniBakiyeIslem.kullaniciAdi = ilgiliKullanici;
+            yeniBakiyeIslem.islemTarihi = DateTime.Now;
+            yeniBakiyeIslem.dovizKuru = "TRY";
+
+            //Alis, Satis ve Komisyon islemleri admin onayina bagli olmadan gerçekleşir.
+            yeniBakiyeIslem.incelendiMi = true;
+            yeniBakiyeIslem.IslemiIsle(true);
+
+            return yeniBakiyeIslem;
         }
 
-
-        //Bakiyeden çekme işlemi.
-        private static void Yeni_AlisIslemi(string ilgiliKullanici, double bakiyeDegisimMiktari)
+        //Temel Islem Nesnesini Satis Islemi Olarak biçimlendirme
+        private static BakiyeIslemObject Get_SatisIslemi(string ilgiliKullanici, string urunAdi, int urunMiktar, double birimFiyat)
         {
-            var yeniBakiyeIslemi = Get_YeniBakiyeIslemi(ilgiliKullanici, bakiyeDegisimMiktari, -1);
-            Save_yeniBakiyeIslemi(yeniBakiyeIslemi);
+            var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
+            bakiyeIslemNesnesi.degisiklikMiktari = (birimFiyat * urunMiktar * +1);
+            bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Satis + " - " + urunAdi + " (" + urunMiktar + "kg x " + birimFiyat + " TRY)";
+
+            return bakiyeIslemNesnesi;
         }
 
-        private static void Satis_Swap(string aliciID, string saticiID, double bakiyeDegisimMiktari)
+        //Temel Islem Nesnesini Alis Islemi Olarak biçimlendirme
+        private static BakiyeIslemObject Get_AlisIslemi(string ilgiliKullanici, string urunAdi, int urunMiktar, double birimFiyat)
         {
-            //Alıcıya alış işlemini, satıcıya satış işlemini yaptırıp
-            //Bakiyelerinde değişikliği gerçekleştirdin.
-            Yeni_AlisIslemi(aliciID, bakiyeDegisimMiktari);
-            Yeni_SatisIslemi(saticiID, bakiyeDegisimMiktari);
+            var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
+            bakiyeIslemNesnesi.degisiklikMiktari = (birimFiyat * urunMiktar * -1);
+            bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Alis + " - " + urunAdi + " (" + urunMiktar + "kg x " + birimFiyat + " TRY)";
+
+            return bakiyeIslemNesnesi;
+        }
+
+        //Temel Islem Nesnesini Komisyon Kesintisi Islemi Olarak biçimlendirme
+        private static BakiyeIslemObject Get_KomisyonKesintisi(string ilgiliKullanici, double kesinti)
+        {
+            var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
+            bakiyeIslemNesnesi.degisiklikMiktari = (kesinti * -1);
+            bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Komisyon;
+
+            return bakiyeIslemNesnesi;
+        }
+
+        //Verilerde degisiklik islemini gerçekleştirir.
+        private static void Satis_Swap(string aliciID, string saticiID, string urunAdi, int urunMiktar, double birimFiyat)
+        {
+            Save_yeniBakiyeIslemi(Get_SatisIslemi(saticiID, urunAdi, urunMiktar, birimFiyat));
+            Save_yeniBakiyeIslemi(Get_AlisIslemi(aliciID, urunAdi, urunMiktar, birimFiyat));
+            KomisyonKes(aliciID, (urunMiktar * birimFiyat));
         }
 
         #endregion
 
 
-
-
+        #region Komisyon Kesme Islemi
         private static void KomisyonKes(string alici, double toplamIslemBedeli)
         {
             //Alicinin yaptıgı islem hacminden %1lik komisyon hesaplandi
             double kesilecekKomisyon = toplamIslemBedeli / 100;
 
             //Alicinin komisyonu alicinin bakiyesinden cikartildi.
-            var yeniBakiyeIslemi = Get_YeniBakiyeIslemi(alici, kesilecekKomisyon, 0);
-            Save_yeniBakiyeIslemi(yeniBakiyeIslemi);
+            Save_yeniBakiyeIslemi(Get_KomisyonKesintisi(alici, kesilecekKomisyon));
 
             //kesilen komisyon kasaya eklendi.
             KasaKontrol kasaController = new KasaKontrol();
             kasaController.BakiyeEkle(kesilecekKomisyon);
         }
+        #endregion
 
 
     }
