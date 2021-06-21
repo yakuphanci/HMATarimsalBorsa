@@ -106,9 +106,11 @@ namespace HMATarimsalBorsa
               
                 ///yeni pazar urunu olusturma islemi
                 var yeniSatilanUrun = GetNewSatilanUrun(_urun, _miktar, _fiyat);
-                kayitliSatilanUrunler.Add(yeniSatilanUrun);  
-               
+
+
+                kayitliSatilanUrunler.Add(yeniSatilanUrun);
                 Veriler.SaveData(kayitliSatilanUrunler);
+                
                 eklendiMi = true;
             }
             catch (Exception exc)
@@ -143,8 +145,7 @@ namespace HMATarimsalBorsa
              }
 
         }
+
         #endregion
-
-
     }
 }

@@ -215,6 +215,11 @@ namespace HMATarimsalBorsa
         }
         #endregion
 
+        private void button_alisEmirlerim_Click(object sender, EventArgs e)
+        {
+            Form_BeklemedekiAlisEmirleri frm_alisEmirlerim = new Form_BeklemedekiAlisEmirleri(this.g_aktifKullanici);
+            frm_alisEmirlerim.ShowDialog();
+        }
     }
 
 

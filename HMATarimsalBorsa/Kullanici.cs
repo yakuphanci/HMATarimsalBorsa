@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace HMATarimsalBorsa
 {
 
@@ -15,7 +17,17 @@ namespace HMATarimsalBorsa
         public string TelefonNum;
         public string EPosta;
 
-        public double Bakiye;
+        private double bakiye;
+        public double Bakiye { 
+            get
+            {
+                return bakiye;
+            }
+            set
+            {
+                bakiye = Math.Round(value, 2);
+            }
+        }
         public Yetki yetki;
         public Kullanici()
         {

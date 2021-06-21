@@ -54,6 +54,7 @@ namespace HMATarimsalBorsa
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.button_alisEmirlerim = new System.Windows.Forms.Button();
             this.panel_menu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -64,6 +65,7 @@ namespace HMATarimsalBorsa
             // 
             // panel_menu
             // 
+            this.panel_menu.Controls.Add(this.button_alisEmirlerim);
             this.panel_menu.Controls.Add(this.button_alisEmri);
             this.panel_menu.Controls.Add(this.button_bakiyeIslemleri);
             this.panel_menu.Controls.Add(this.button_kullaniciPazari);
@@ -80,11 +82,11 @@ namespace HMATarimsalBorsa
             this.button_alisEmri.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.button_alisEmri.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_alisEmri.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_alisEmri.Location = new System.Drawing.Point(399, 3);
+            this.button_alisEmri.Location = new System.Drawing.Point(276, 3);
             this.button_alisEmri.Name = "button_alisEmri";
-            this.button_alisEmri.Size = new System.Drawing.Size(162, 34);
+            this.button_alisEmri.Size = new System.Drawing.Size(127, 34);
             this.button_alisEmri.TabIndex = 8;
-            this.button_alisEmri.Text = "Alış Emri";
+            this.button_alisEmri.Text = "Yeni Alış Emri";
             this.button_alisEmri.UseVisualStyleBackColor = false;
             this.button_alisEmri.Click += new System.EventHandler(this.button_alisEmri_Click);
             // 
@@ -94,9 +96,9 @@ namespace HMATarimsalBorsa
             this.button_bakiyeIslemleri.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.button_bakiyeIslemleri.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_bakiyeIslemleri.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_bakiyeIslemleri.Location = new System.Drawing.Point(231, 3);
+            this.button_bakiyeIslemleri.Location = new System.Drawing.Point(145, 3);
             this.button_bakiyeIslemleri.Name = "button_bakiyeIslemleri";
-            this.button_bakiyeIslemleri.Size = new System.Drawing.Size(162, 34);
+            this.button_bakiyeIslemleri.Size = new System.Drawing.Size(127, 34);
             this.button_bakiyeIslemleri.TabIndex = 7;
             this.button_bakiyeIslemleri.Text = "Bakiye İşlemleri";
             this.button_bakiyeIslemleri.UseVisualStyleBackColor = false;
@@ -108,9 +110,9 @@ namespace HMATarimsalBorsa
             this.button_kullaniciPazari.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.button_kullaniciPazari.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_kullaniciPazari.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_kullaniciPazari.Location = new System.Drawing.Point(63, 3);
+            this.button_kullaniciPazari.Location = new System.Drawing.Point(12, 3);
             this.button_kullaniciPazari.Name = "button_kullaniciPazari";
-            this.button_kullaniciPazari.Size = new System.Drawing.Size(162, 34);
+            this.button_kullaniciPazari.Size = new System.Drawing.Size(127, 34);
             this.button_kullaniciPazari.TabIndex = 6;
             this.button_kullaniciPazari.Text = "Sahip Olduğum Pazarlar";
             this.button_kullaniciPazari.UseVisualStyleBackColor = false;
@@ -304,6 +306,20 @@ namespace HMATarimsalBorsa
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // button_alisEmirlerim
+            // 
+            this.button_alisEmirlerim.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_alisEmirlerim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this.button_alisEmirlerim.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_alisEmirlerim.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_alisEmirlerim.Location = new System.Drawing.Point(409, 3);
+            this.button_alisEmirlerim.Name = "button_alisEmirlerim";
+            this.button_alisEmirlerim.Size = new System.Drawing.Size(127, 34);
+            this.button_alisEmirlerim.TabIndex = 9;
+            this.button_alisEmirlerim.Text = "Alış Emirlerim";
+            this.button_alisEmirlerim.UseVisualStyleBackColor = false;
+            this.button_alisEmirlerim.Click += new System.EventHandler(this.button_alisEmirlerim_Click);
+            // 
             // Form_Uygulama
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -357,5 +373,6 @@ namespace HMATarimsalBorsa
         private PictureBox pictureBox2;
         private Button button_bakiyeIslemleri;
         private Button button_alisEmri;
+        private Button button_alisEmirlerim;
     }
 }

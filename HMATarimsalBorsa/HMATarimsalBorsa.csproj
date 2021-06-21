@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlisEmriNesneleri\AlisEmri.cs" />
     <Compile Include="AlisIslemleri.cs" />
     <Compile Include="BakiyeIslemObject.cs" />
     <Compile Include="BenzersizIDOlusturucu.cs" />
@@ -84,6 +85,12 @@
     </Compile>
     <Compile Include="Form_BakiyeIslemGecmisi.Designer.cs">
       <DependentUpon>Form_BakiyeIslemGecmisi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_BeklemedekiAlisEmirleri.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_BeklemedekiAlisEmirleri.Designer.cs">
+      <DependentUpon>Form_BeklemedekiAlisEmirleri.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_BekleyenBakiyeIslemleri.cs">
       <SubType>Form</SubType>
@@ -167,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_BakiyeIslemGecmisi.resx">
       <DependentUpon>Form_BakiyeIslemGecmisi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_BeklemedekiAlisEmirleri.resx">
+      <DependentUpon>Form_BeklemedekiAlisEmirleri.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_BekleyenBakiyeIslemleri.resx">
       <DependentUpon>Form_BekleyenBakiyeIslemleri.cs</DependentUpon>

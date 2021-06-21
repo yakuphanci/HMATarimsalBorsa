@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HMATarimsalBorsa.AlisEmriNesneleri;
 
 namespace HMATarimsalBorsa
 {
@@ -15,12 +16,53 @@ namespace HMATarimsalBorsa
             public static string path_SatilanUrunler { get { return @"SatilanUrunler.json"; } }
             public static string path_Urunler { get { return @"urunler.json"; } }
             public static string path_Kasa { get { return @"kasa.json"; } }
+            public static string path_alisEmirleri { get { return @"alisEmirleri.json"; } }
+
 
         }
-     
-       
+
+
         #region Veri Cekme
-     
+
+        public static List<AlisEmri> GetAlisEmirleri()
+        {
+            var json_alisEmirleri = JsonController.GetJsonFromFile(Veriler.stdVeriYollari.path_alisEmirleri);
+            var alisEmirleri = JsonController.GetDataFromJSON<List<AlisEmri>>(json_alisEmirleri);
+
+            var siraliAlisEmirleri = (from a in alisEmirleri
+                                     orderby
+                                     a.zamanDamgasi_ms ascending
+                                     select a).ToList();
+            return siraliAlisEmirleri;
+        }
+
+        public static List<AlisEmri> GetAlisEmirleri(string kullaniciAdi)
+        {
+            var json_alisEmirleri = JsonController.GetJsonFromFile(Veriler.stdVeriYollari.path_alisEmirleri);
+            var alisEmirleri = JsonController.GetDataFromJSON<List<AlisEmri>>(json_alisEmirleri);
+
+            var siraliAlisEmirleri = (from a in alisEmirleri
+                                      where 
+                                      a.aliciID == kullaniciAdi
+                                      orderby
+                                      a.zamanDamgasi_ms ascending
+                                      select a).ToList();
+            return siraliAlisEmirleri;
+        }
+
+
+        public static List<AlisEmri> GetUygunAlisEmirleri(SatilanUrun satilanUrun, List<AlisEmri> alisEmirleri)
+        {
+            var uygunEmirler = (from a in alisEmirleri
+                                where
+                                a.urunID == satilanUrun.urun.ID &&
+                                a.alisFiyati >= satilanUrun.fiyat
+                                orderby
+                                a.zamanDamgasi_ms ascending
+                                select a).ToList();
+            return uygunEmirler;
+        }
+
         public static Kasa GetKasa()
         {
 
@@ -358,6 +400,8 @@ namespace HMATarimsalBorsa
                 JsonController.SaveJsonToFile(Veriler.stdVeriYollari.path_Urunler, sender);
             else if (sender is Kasa)
                 JsonController.SaveJsonToFile(Veriler.stdVeriYollari.path_Kasa, sender);
+            else if (sender is List<AlisEmri>)
+                JsonController.SaveJsonToFile(Veriler.stdVeriYollari.path_alisEmirleri, sender);
             else
                 return false;
             //else girerse false döndürür(kaydedilmedi).

@@ -33,7 +33,12 @@ namespace HMATarimsalBorsa
 
         public uint ID;
         public string kullaniciAdi;
-        public double degisiklikMiktari;
+        private double _degisiklikMiktari;
+        public double degisiklikMiktari 
+        {
+            get { return Math.Round(_degisiklikMiktari, 2); }
+            set { _degisiklikMiktari = value; }
+        }
         public DateTime islemTarihi;
         public DateTime gerceklesmeTarihi;
         public string aciklama;

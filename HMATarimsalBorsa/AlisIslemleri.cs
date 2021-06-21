@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HMATarimsalBorsa.AlisEmriNesneleri;
 
 namespace HMATarimsalBorsa
 {
@@ -125,6 +126,37 @@ namespace HMATarimsalBorsa
         }
 
 
+        public static bool AlisYap(AlisEmri alisEmri, SatilanUrun satilanUrun)
+        {
+            int alinanMiktar = 0;
+
+            if (alisEmri.ihtiyacDuyulanMiktar() >= satilanUrun.miktar)
+            {
+                alinanMiktar = satilanUrun.miktar;
+            }
+            else
+            {
+                alinanMiktar = alisEmri.ihtiyacDuyulanMiktar();
+            }
+            
+
+            //maliyet hesabı
+            double maliyet = alinanMiktar * satilanUrun.fiyat; // ham maliyet
+            maliyet += maliyet / 100; // + komisyon
+
+
+            if (alisEmri.ayrilanButce>= maliyet)
+            {
+                alisEmri.alinanMiktar += alinanMiktar;
+                satilanUrun.miktar -= alinanMiktar;
+                Satis_Swap(alisEmri, satilanUrun.saticiID, satilanUrun.urun.Adi, alinanMiktar, satilanUrun.fiyat);
+            }
+            else
+                return false;
+   
+            return true;
+        }
+
 
         #region Bakiye Islem Kayit Olayi
         private static void Save_yeniBakiyeIslemi(BakiyeIslemObject yeniBakiyeIslem)
@@ -139,7 +171,7 @@ namespace HMATarimsalBorsa
         #region SATIS ve ALIS fonksiyonlari
 
         //Temel Islem Nesnesi Olusturma
-        private static BakiyeIslemObject CreateBakiyeIslemObject(string ilgiliKullanici)
+        public static BakiyeIslemObject CreateBakiyeIslemObject(string ilgiliKullanici)
         {
             //yeni işlem oluştur.
             var yeniBakiyeIslem = new BakiyeIslemObject();
@@ -150,9 +182,7 @@ namespace HMATarimsalBorsa
             yeniBakiyeIslem.islemTarihi = DateTime.Now;
             yeniBakiyeIslem.dovizKuru = "TRY";
 
-            //Alis, Satis ve Komisyon islemleri admin onayina bagli olmadan gerçekleşir.
-            yeniBakiyeIslem.incelendiMi = true;
-            yeniBakiyeIslem.IslemiIsle(true);
+
 
             return yeniBakiyeIslem;
         }
@@ -163,6 +193,9 @@ namespace HMATarimsalBorsa
             var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
             bakiyeIslemNesnesi.degisiklikMiktari = (birimFiyat * urunMiktar * +1);
             bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Satis + " - " + urunAdi + " (" + urunMiktar + "kg x " + birimFiyat + " TRY)";
+            //Alis, Satis ve Komisyon islemleri admin onayina bagli olmadan gerçekleşir.
+            bakiyeIslemNesnesi.incelendiMi = true;
+            bakiyeIslemNesnesi.IslemiIsle(true);
 
             return bakiyeIslemNesnesi;
         }
@@ -173,7 +206,9 @@ namespace HMATarimsalBorsa
             var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
             bakiyeIslemNesnesi.degisiklikMiktari = (birimFiyat * urunMiktar * -1);
             bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Alis + " - " + urunAdi + " (" + urunMiktar + "kg x " + birimFiyat + " TRY)";
-
+            //Alis, Satis ve Komisyon islemleri admin onayina bagli olmadan gerçekleşir.
+            bakiyeIslemNesnesi.incelendiMi = true;
+            bakiyeIslemNesnesi.IslemiIsle(true);
             return bakiyeIslemNesnesi;
         }
 
@@ -183,6 +218,9 @@ namespace HMATarimsalBorsa
             var bakiyeIslemNesnesi = CreateBakiyeIslemObject(ilgiliKullanici);
             bakiyeIslemNesnesi.degisiklikMiktari = (kesinti * -1);
             bakiyeIslemNesnesi.aciklama = BakiyeIslemStatics.stdAciklama.Komisyon;
+            //Alis, Satis ve Komisyon islemleri admin onayina bagli olmadan gerçekleşir.
+            bakiyeIslemNesnesi.incelendiMi = true;
+            bakiyeIslemNesnesi.IslemiIsle(true);
 
             return bakiyeIslemNesnesi;
         }
@@ -190,11 +228,41 @@ namespace HMATarimsalBorsa
         //Verilerde degisiklik islemini gerçekleştirir.
         private static void Satis_Swap(string aliciID, string saticiID, string urunAdi, int urunMiktar, double birimFiyat)
         {
-            Save_yeniBakiyeIslemi(Get_SatisIslemi(saticiID, urunAdi, urunMiktar, birimFiyat));
-            Save_yeniBakiyeIslemi(Get_AlisIslemi(aliciID, urunAdi, urunMiktar, birimFiyat));
+            var satisIslemi = Get_SatisIslemi(saticiID, urunAdi, urunMiktar, birimFiyat);
+            var alisIslemi = Get_AlisIslemi(aliciID, urunAdi, urunMiktar, birimFiyat);
+            Save_yeniBakiyeIslemi(alisIslemi);
+            Save_yeniBakiyeIslemi(satisIslemi);
             KomisyonKes(aliciID, (urunMiktar * birimFiyat));
         }
 
+
+        private static void Satis_Swap(AlisEmri alisEmri, string saticiID, string urunAdi, int urunMiktar, double birimFiyat)
+        {
+            var satisIslemi = Get_SatisIslemi(saticiID, urunAdi, urunMiktar, birimFiyat);
+            Save_yeniBakiyeIslemi(satisIslemi);
+
+
+            double islemBedeli = (urunMiktar * birimFiyat);
+            alisEmri.ayrilanButce -= islemBedeli ;
+            alisEmri.ayrilanButce -= (islemBedeli / 100);
+
+            #region Alis Emrinden Gerceklesen Islem Olusturma
+            var aliciBakiyeIslemi = CreateBakiyeIslemObject(alisEmri.aliciID);
+            aliciBakiyeIslemi.degisiklikMiktari = (islemBedeli * -1);
+            aliciBakiyeIslemi.incelendiMi = true;
+            aliciBakiyeIslemi.onaylandiMi= true;
+            aliciBakiyeIslemi.gerceklestiMi = true;
+            aliciBakiyeIslemi.aciklama = BakiyeIslemStatics.stdAciklama.Alis + " - " + urunAdi + " (" + urunMiktar + "kg x " + birimFiyat + " TRY)";
+            aliciBakiyeIslemi.gerceklesmeTarihi = DateTime.Now;
+            #endregion
+
+            var bakiyeIslemleri = Veriler.GetBakiyeIslemleri();
+            bakiyeIslemleri.Add(aliciBakiyeIslemi);
+            Veriler.SaveData(bakiyeIslemleri);
+
+
+            KomisyonKes(alisEmri.aliciID, islemBedeli);
+        }
         #endregion
 
 

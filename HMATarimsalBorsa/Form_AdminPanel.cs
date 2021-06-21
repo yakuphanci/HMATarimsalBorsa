@@ -82,6 +82,16 @@ namespace HMATarimsalBorsa
             //tarihi yayınlanma tarihi olarak güncelledik.
             tiklananPazar.tarih = DateTime.Now;
 
+
+            //Yeni Eklenen urunu alis emirlerinde bekleyenlerin begenisine bir sun.
+            AlisEmriNesneleri.AlisEmriKontrol.SatilanUrunSun(tiklananPazar);
+
+            //urunun tum stogu beklemedeki alis emirleri tarafindan alindiysa pazardan kaldir.
+            if (tiklananPazar.miktar == 0)
+            {
+                pazarlar.Remove(tiklananPazar);
+            }
+
             //Güncellenen veriyi geri kaydettik.
             Veriler.SaveData(pazarlar);
         }
