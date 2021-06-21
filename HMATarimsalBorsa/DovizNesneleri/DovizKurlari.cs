@@ -71,7 +71,6 @@ namespace HMATarimsalBorsa
 
         public static double getDovizSatisFiyati(string kod)
         {
-            System.Windows.Forms.MessageBox.Show(kod);
             string DovizSatisFiyati =
                     (from kurlar in GuncelKurlar().Descendants("Currency")
                      where kurlar.Attribute("Kod").Value == kod
